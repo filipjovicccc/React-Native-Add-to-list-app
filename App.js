@@ -2,7 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet,
          View, 
         
-         FlatList
+         FlatList,
+         Button
         
         } from 'react-native';
         
@@ -10,7 +11,7 @@ import { StyleSheet,
         import GoalItem from './components/GoalItem';
         import GoalInput from './components/GoalInput';
 
-export default function App(enteredGoalText) {
+export default function App() {
 
  const [courseGoals, setCourseGoals] = useState([])
  
@@ -22,26 +23,32 @@ export default function App(enteredGoalText) {
     setModalIsVisible(true)
  }
 
-  function addGoalHandler(){
+function endAddGoalHandler(){
+  setModalVisible(false)
+}
 
-        setCourseGoals(currentCourseGoals => [...currentCourseGoals, {text: props.enteredGoalText, id: Math.random().toString()}])
-  }
+  function addGoalHandler(enteredGoalText){
 
-  function deleteGoalHandler(id){
-     
-    setCourseGoals(currentCourseGoals => {
-      
-      return currentCourseGoals.filter((goal) => {
-               goal.id !== id   
-      });
-    })
+        setCourseGoals(currentCourseGoals => [...currentCourseGoals, {text:enteredGoalText, id: Math.random().toString()}])
+        
+        setModalIsVisible(false)
+  
+      }
+
+  function deleteGoalHandler(id) {
+    setCourseGoals((currentCourseGoals) => {
+      return currentCourseGoals.filter((goal) => goal.id !== id);
+    });
   }
   return (
+    <>
+    <StatusBar style='light'/>
     <View style={styles.appContainer}>
-
     <Button title='Add New Goal' color="#5e0acc" onPress={startAddGoalHandler}/>
        
-     <GoalInput visible={modalIsVisible} goalInputHandler={goalInputHandler} onAddGoal={addGoalHandler}/>
+     <GoalInput visible={modalIsVisible}
+     onEndGoal={endAddGoalHandler}
+       onAddGoal={addGoalHandler}/>
            <View style={styles.goalsContainer}>
 
               <FlatList data={courseGoals}  renderItem={ (itemData) => {
@@ -59,12 +66,10 @@ export default function App(enteredGoalText) {
          </View>
 
        </View>
-  
+   </>
     
   );
 }
-//StyleSheet objekat koji koristimo u react Nativu
-
 
 const styles = StyleSheet.create({
 

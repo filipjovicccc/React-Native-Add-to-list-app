@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet, View, Text, Pressable, Modal, Button} from 'react-native'
+import {StyleSheet, View, Text, Pressable, } from 'react-native'
 
 function GoalItem(props) {
 
